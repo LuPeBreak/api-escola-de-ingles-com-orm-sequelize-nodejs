@@ -1,0 +1,22 @@
+{
+  "name": "orm-sequelize",
+  "version": "1.0.0",
+  "description": "Estudos do curso ORM com nodejs da alura",
+  "main": "/api/index.js",
+  "scripts": {
+    "serve": "nodemon api/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luis Felipe de Paula Costa",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "mysql2": "^2.3.3",
+    "path": "^0.12.7",
+    "sequelize": "^6.17.0",
+    "sequelize-cli": "^6.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
