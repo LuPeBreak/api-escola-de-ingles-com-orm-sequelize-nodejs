@@ -70,6 +70,7 @@ class NivelController {
       res.status(500).json(err.message);
     }
   }
+
 }
 
 module.exports = NivelController;
