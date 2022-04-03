@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       status: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.STRING
       },
       estudante_id: {
         allowNull: false,

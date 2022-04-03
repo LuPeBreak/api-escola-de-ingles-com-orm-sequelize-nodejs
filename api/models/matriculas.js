@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Matriculas.init(
     {
-      status: DataTypes.BOOLEAN,
+      status: DataTypes.STRING,
     },
     {
       sequelize,
