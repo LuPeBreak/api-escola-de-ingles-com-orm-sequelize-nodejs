@@ -167,11 +167,11 @@ class PessoaController {
     }
   }
 
-  // restaura uma pessoa deletada pelo softdelete
+  // restaura uma matricula deletada pelo softdelete
   static async restoreMatricula(req,res){
     try {
       const { estudanteId, matriculaId } = req.params
-      await Pessoas.restore({
+      await Matriculas.restore({
         where: {
           id: Number(matriculaId),
           estudante_id: Number(estudanteId),
