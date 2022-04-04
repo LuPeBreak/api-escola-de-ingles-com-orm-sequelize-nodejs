@@ -3,7 +3,8 @@ const PessoaController = require('../controllers/PessoaController')
 
 const PessoaRouter = Router()
 
-PessoaRouter.get('/', PessoaController.list)
+PessoaRouter.get('/', PessoaController.listActive)
+PessoaRouter.get('/todos', PessoaController.listAll)
 PessoaRouter.post('/', PessoaController.create)
 PessoaRouter.post('/:id/restaura', PessoaController.restore)
 PessoaRouter.get('/:id', PessoaController.find)

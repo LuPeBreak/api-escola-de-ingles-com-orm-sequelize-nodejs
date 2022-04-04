@@ -1,10 +1,20 @@
 const { Pessoas, Matriculas } = require('../models')
 
 class PessoaController {
-  // lista todas as pessoas
-  static async list(req, res) {
+  // lista todas as pessoas Ativas
+  static async listActive(req, res) {
     try {
-      const todasAsPessoas = await Pessoas.findAll()
+      const pessoasAtivas = await Pessoas.findAll()
+      return res.json(pessoasAtivas)
+    } catch (err) {
+      res.status(500).json(err.message)
+    }
+  }
+
+  // lista todas as pessoas
+  static async listAll(req, res) {
+    try {
+      const todasAsPessoas = await Pessoas.scope('todos').findAll()
       return res.json(todasAsPessoas)
     } catch (err) {
       res.status(500).json(err.message)
