@@ -1,3 +1,7 @@
 Projeto para estudos na Alura do Curso :
 
 - ORM com NodeJS: API com Sequelize e MySQL
+
+
+
+* nao se esqueça de renomerar o config sample.json para config e configurar o banco de dados da sua maquina local
