@@ -83,12 +83,14 @@ class PessoaController {
   static async DeactivatePessoaMatriculas(req, res) {
     const { estudanteId } = req.params
     try {
-      await Pessoas.update({ativo:false},{where:{
-        id:Number(estudanteId)
-      }})
-      await Matriculas.update({status:'cancelado'},{where:{
-        estudante_id:Number(estudanteId)
-      }})
+      await Pessoas
+        .update({ativo:false},{where:{
+          id:Number(estudanteId)
+        }})
+      await Matriculas
+        .update({status:'cancelado'},{where:{
+          estudante_id:Number(estudanteId)
+        }})
       res.json({ message: `Estudante e Matriculas desativados - ID : ${estudanteId}` })
     } catch (err) {
       res.status(500).json(err.message)
