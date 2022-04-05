@@ -1,5 +1,5 @@
 const { Pessoas, Matriculas } = require('../models')
-
+const Sequelize = require('sequelize')
 class PessoaController {
   // lista todas as pessoas Ativas
   static async listActive(req, res) {
@@ -80,6 +80,20 @@ class PessoaController {
       res.status(500).json(err.message)
     }
   }
+  static async DeactivatePessoaMatriculas(req, res) {
+    const { estudanteId } = req.params
+    try {
+      await Pessoas.update({ativo:false},{where:{
+        id:Number(estudanteId)
+      }})
+      await Matriculas.update({status:'cancelado'},{where:{
+        estudante_id:Number(estudanteId)
+      }})
+      res.json({ message: `Estudante e Matriculas desativados - ID : ${estudanteId}` })
+    } catch (err) {
+      res.status(500).json(err.message)
+    }
+  }
 
   // restaura uma pessoa deletada pelo softdelete
   static async restore(req,res){
@@ -105,6 +119,42 @@ class PessoaController {
       const pessoa = await Pessoas.findOne({where:{id:Number(estudanteId)}})
       const matriculas = await pessoa.getAulasMatriculadas()
       return res.json(matriculas)
+    } catch (err) {
+      res.status(500).json(err.message)
+    }
+  }
+  //lista matriculas de uma turma que estao confirmadas
+  static async listMatriculasPorTurma(req, res) {
+    try {
+      const { turmaId } = req.params
+      const todasAsMatriculas = await Matriculas
+        .findAndCountAll({where:{
+          turma_id:turmaId,
+          status:'confirmado'
+        },
+        limit:20,
+        order:[['estudante_id','ASC']]
+        })
+      res.json(todasAsMatriculas)
+
+    } catch (err) {
+      res.status(500).json(err.message)
+    }
+  }
+
+  // pega as matriculas de turmas lotadas
+  static async listTurmasLotadas(req, res) {
+    const lotacaoTurma = 2
+    try {
+      const turmasLotadas = await Matriculas.findAndCountAll({
+        where: { status:'confirmado'},
+        attributes:['turma_id'],
+        group:['turma_id'],
+        having: Sequelize.literal(`count(turma_id)>=${lotacaoTurma}`)
+      })
+
+      res.json(turmasLotadas.count)
+
     } catch (err) {
       res.status(500).json(err.message)
     }
@@ -168,7 +218,7 @@ class PessoaController {
           estudante_id: Number(estudanteId),
         },
       })
-      res.json({ message: 'deletado com sucesso', id: estudanteId })
+      res.json({ message: 'deletado com sucesso', id: matriculaId })
     } catch (err) {
       res.status(500).json(err.message)
     }
@@ -184,7 +234,7 @@ class PessoaController {
           estudante_id: Number(estudanteId),
         },
       })
-      res.json({ message: 'Restaurado', id: estudanteId })
+      res.json({ message: 'Restaurado', id: matriculaId })
     } catch (err) {
       res.status(500).json(err.message)
     }
