@@ -102,12 +102,9 @@ class PessoaController {
   static async listMatriculas(req, res) {
     try {
       const { estudanteId } = req.params
-      const todasAsMatriculas = await Matriculas.findAll({
-        where: {
-          estudante_id: estudanteId,
-        },
-      })
-      return res.json(todasAsMatriculas)
+      const pessoa = await Pessoas.findOne({where:{id:Number(estudanteId)}})
+      const matriculas = await pessoa.getAulasMatriculadas()
+      return res.json(matriculas)
     } catch (err) {
       res.status(500).json(err.message)
     }
