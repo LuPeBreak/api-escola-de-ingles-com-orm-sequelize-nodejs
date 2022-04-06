@@ -81,11 +81,9 @@ class MatriculaController {
   // Atualiza uma Matricula especifica pelo id
   static async update(req, res) {
     try {
-      const { estudanteId, matriculaId } = req.params
+      const { matriculaId } = req.params
       const dadosParaAtualizarPessoa = req.body
-      const matriculaAtualizada = await matriculasServices.atualizaRegistrosEPega(dadosParaAtualizarPessoa, {
-        id: Number(matriculaId), estudante_id: Number(estudanteId) },
-      )
+      const matriculaAtualizada = await matriculasServices.atualizaRegistroEPega(dadosParaAtualizarPessoa, matriculaId)
       res.json(matriculaAtualizada)
     } catch (err) {
       res.status(500).json(err.message)
@@ -95,11 +93,8 @@ class MatriculaController {
   // Deleta uma Matricula especifica pelo id
   static async delete(req, res) {
     try {
-      const { estudanteId, matriculaId } = req.params
-      await matriculasServices.deletaRegistros({
-        id: Number(matriculaId),
-        estudante_id: Number(estudanteId),
-      })
+      const { matriculaId } = req.params
+      await matriculasServices.deletaRegistro(matriculaId)
       res.json({ message: 'deletado com sucesso', id: matriculaId })
     } catch (err) {
       res.status(500).json(err.message)
@@ -109,11 +104,8 @@ class MatriculaController {
   // restaura uma matricula deletada pelo softdelete
   static async restore(req,res){
     try {
-      const { estudanteId, matriculaId } = req.params
-      await matriculasServices.restauraRegistros({
-        id: Number(matriculaId),
-        estudante_id: Number(estudanteId),
-      })
+      const { matriculaId } = req.params
+      await matriculasServices.restauraRegistro(matriculaId)
       res.json({ message: 'Restaurado', id: matriculaId })
     } catch (err) {
       res.status(500).json(err.message)
