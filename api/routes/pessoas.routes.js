@@ -1,10 +1,11 @@
 const { Router } = require('express')
 const PessoaController = require('../controllers/PessoaController')
+const MatriculaController = require('../controllers/MatriculaController')
 
 const PessoaRouter = Router()
 
-PessoaRouter.get('/', PessoaController.listActive)
-PessoaRouter.get('/todos', PessoaController.listAll)
+PessoaRouter.get('/', PessoaController.listAll)
+PessoaRouter.get('/ativas', PessoaController.listActive)
 PessoaRouter.post('/', PessoaController.create)
 PessoaRouter.post('/:id/restaura', PessoaController.restore)
 PessoaRouter.post('/:estudanteId/cancela', PessoaController.DeactivatePessoaMatriculas)
@@ -13,13 +14,13 @@ PessoaRouter.put('/:id', PessoaController.update)
 PessoaRouter.delete('/:id', PessoaController.delete)
 
 //Matriculas
-PessoaRouter.get('/:estudanteId/matriculas', PessoaController.listMatriculas)
-PessoaRouter.get('/matriculas/:turmaId/confirmadas',PessoaController.listMatriculasPorTurma)
-PessoaRouter.get('/matriculas/lotadas',PessoaController.listTurmasLotadas)
-PessoaRouter.get('/:estudanteId/matriculas/:matriculaId', PessoaController.findMatricula)
-PessoaRouter.post('/:estudanteId/matriculas', PessoaController.createMatricula)
-PessoaRouter.post('/:estudanteId/matriculas/:matriculaId/restaura', PessoaController.restoreMatricula)
-PessoaRouter.put('/:estudanteId/matriculas/:matriculaId', PessoaController.updateMatricula)
-PessoaRouter.delete('/:estudanteId/matriculas/:matriculaId', PessoaController.deleteMatricula)
+PessoaRouter.get('/:estudanteId/matriculas', MatriculaController.list)
+PessoaRouter.get('/matriculas/:turmaId/confirmadas',MatriculaController.listMatriculasPorTurma)
+PessoaRouter.get('/matriculas/lotadas',MatriculaController.listTurmasLotadas)
+PessoaRouter.get('/:estudanteId/matriculas/:matriculaId', MatriculaController.find)
+PessoaRouter.post('/:estudanteId/matriculas', MatriculaController.create)
+PessoaRouter.post('/:estudanteId/matriculas/:matriculaId/restaura', MatriculaController.restore)
+PessoaRouter.put('/:estudanteId/matriculas/:matriculaId', MatriculaController.update)
+PessoaRouter.delete('/:estudanteId/matriculas/:matriculaId', MatriculaController.delete)
 
 module.exports = PessoaRouter
